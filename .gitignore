@@ -1,0 +1,10 @@
+node_modules
+build
+.wrangler
+.dev.vars
+*.tsbuildinfo
+/out
+packages/core/assets/vendor
+
+# Claude Code session bookkeeping
+.cc-writes

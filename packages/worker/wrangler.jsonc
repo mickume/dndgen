@@ -1,0 +1,33 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "dndgen",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Copies mermaid into the theme assets before every dev or deploy
+  "build": {
+    "command": "node ../../scripts/vendor.ts"
+  },
+
+  // Fonts, theme CSS and images, plus mermaid; Chrome loads them through the Worker.
+  // The API itself always runs in the Worker.
+  "assets": {
+    "directory": "../core/assets",
+    "binding": "ASSETS",
+    "run_worker_first": ["/v1/*"]
+  },
+
+  // Uploads, intermediate files and PDFs, under jobs/<id>/. Give the bucket a lifecycle
+  // rule that deletes jobs/ after a few days (see docs/configuration.md).
+  "r2_buckets": [{ "binding": "JOBS", "bucket_name": "dndgen-jobs" }],
+
+  "browser": { "binding": "BROWSER" },
+  "images": { "binding": "IMAGES" },
+
+  "workflows": [{ "name": "dndgen-render", "binding": "RENDER", "class_name": "RenderWorkflow" }],
+
+  "limits": { "cpu_ms": 300000 },
+
+  "observability": { "enabled": true }
+}

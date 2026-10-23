@@ -1,0 +1,757 @@
+/*
+ * dndbeyond: the look of a fifth-edition hardcover as sold on D&D Beyond, written for
+ * Chrome's paged-media printing. Ported from the Homebrewery's 5ePHB theme (MIT); the fonts
+ * are Solbera's CC BY-SA 4.0 recreations, see NOTICE.md.
+ */
+
+@font-face {
+  font-family: "BookInsanity";
+  src: url("fonts/bookinsanity.woff2");
+}
+@font-face {
+  font-family: "BookInsanity";
+  font-weight: bold;
+  src: url("fonts/bookinsanity-bold.woff2");
+}
+@font-face {
+  font-family: "BookInsanity";
+  font-style: italic;
+  src: url("fonts/bookinsanity-italic.woff2");
+}
+@font-face {
+  font-family: "BookInsanity";
+  font-style: italic;
+  font-weight: bold;
+  src: url("fonts/bookinsanity-bold-italic.woff2");
+}
+@font-face {
+  font-family: "ScalySans";
+  src: url("fonts/scaly-sans.woff2");
+}
+@font-face {
+  font-family: "ScalySans";
+  font-weight: bold;
+  src: url("fonts/scaly-sans-bold.woff2");
+}
+@font-face {
+  font-family: "ScalySans";
+  font-style: italic;
+  src: url("fonts/scaly-sans-italic.woff2");
+}
+@font-face {
+  font-family: "ScalySans";
+  font-style: italic;
+  font-weight: bold;
+  src: url("fonts/scaly-sans-bold-italic.woff2");
+}
+@font-face {
+  font-family: "ScalySansCaps";
+  src: url("fonts/scaly-sans-caps.woff2");
+}
+@font-face {
+  font-family: "MrEaves";
+  src: url("fonts/mr-eaves-small-caps.woff2");
+}
+@font-face {
+  font-family: "Solbera";
+  src: url("fonts/solbera-imitation-tweak.woff2");
+}
+@font-face {
+  font-family: "Nodesto";
+  src: url("fonts/nodesto-caps-condensed.woff2");
+}
+@font-face {
+  font-family: "Nodesto";
+  font-weight: bold;
+  src: url("fonts/nodesto-caps-condensed-bold.woff2");
+}
+@font-face {
+  font-family: "Overpass";
+  src: url("fonts/overpass-medium.woff2");
+}
+
+:root {
+  --parchment: #eee5ce;
+  --accent: #e0e5c1;
+  --header-underline: #c0ad6a;
+  --rule: #9c2b1b;
+  --header: #58180d;
+  --stat-background: #f2e5b5;
+  --caption: #766649;
+  --footer: #b8975a;
+  --readaloud: #faf7ea;
+  --body-size: 0.34cm;
+  --sans-size: 0.318cm;
+}
+
+/* ---------- Pages ---------- */
+
+/*
+ * The parchment and the running footers are not part of the page: browser-print.css adds
+ * them with @page rules, or the Worker prints them as separate sheets laid underneath
+ * (.page-sheet below), which also works on Chrome versions without page-margin boxes.
+ */
+@page {
+  size: letter;
+  margin: 1.4cm 1.9cm 1.9cm;
+}
+@page cover {
+  margin: 0;
+  background: #1b1209;
+  background-image: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+body {
+  margin: 0;
+  font-family: "BookInsanity", serif;
+  font-size: var(--body-size);
+  line-height: 1.25em;
+  color: #000;
+  text-rendering: optimizeLegibility;
+  orphans: 2;
+  widows: 2;
+}
+
+/* ---------- Page sheets: the parchment once, then each page's running footer ---------- */
+
+.page-sheets {
+  margin: 0;
+}
+.page-sheet {
+  position: relative;
+  width: 215.9mm;
+  height: 279.4mm;
+  overflow: hidden;
+  break-after: page;
+}
+.page-sheet.background {
+  background: #eee8d1 url("img/parchmentBackground.jpg") center / cover;
+}
+.page-sheet:last-child {
+  break-after: auto;
+}
+.page-sheet .footer-accent {
+  position: absolute;
+  right: 0;
+  bottom: 0.45cm;
+  left: 0;
+  height: 1.2cm;
+  background: url("img/PHB_footerAccent.png") center / 100% 100% no-repeat;
+}
+.page-sheet.left .footer-accent {
+  background-image: url("img/PHB_footerAccentLeft.png");
+}
+.page-sheet .footer-title,
+.page-sheet .footer-number {
+  position: absolute;
+  bottom: 0.62cm;
+  color: var(--footer);
+}
+.page-sheet .footer-title {
+  font:
+    0.28cm "MrEaves",
+    serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.page-sheet .footer-number {
+  width: 1.9cm;
+  font:
+    0.34cm "BookInsanity",
+    serif;
+  text-align: center;
+}
+.page-sheet.right .footer-title {
+  right: 3.4cm;
+}
+.page-sheet.right .footer-number {
+  right: 0;
+}
+.page-sheet.left .footer-title {
+  left: 3.4cm;
+}
+.page-sheet.left .footer-number {
+  left: 0;
+}
+
+/* ---------- Cover ---------- */
+
+.cover {
+  page: cover;
+  position: relative;
+  width: 215.9mm;
+  height: 279.4mm;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  break-after: page;
+}
+.cover-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 55%),
+    transparent 35%,
+    transparent 70%,
+    rgb(0 0 0 / 60%)
+  );
+}
+.cover.no-art {
+  background: radial-gradient(circle at 50% 35%, #6b2a1c, #1b1209 75%);
+}
+.cover-title {
+  position: relative;
+  z-index: 1;
+  padding: 1.6cm 1.2cm 0;
+}
+.cover-name {
+  margin: 0;
+  font-family: "Nodesto", serif;
+  font-size: 2.25cm;
+  line-height: 0.9;
+  text-transform: uppercase;
+  -webkit-text-stroke: 0.2cm #000;
+  paint-order: stroke;
+}
+.cover-subtitle {
+  width: 14cm;
+  line-height: 1.15;
+  margin: 0.3cm auto 0;
+  padding-top: 0.6cm;
+  font-family: "Nodesto", serif;
+  font-size: 0.75cm;
+  letter-spacing: 0.06cm;
+  -webkit-text-stroke: 0.12cm #000;
+  paint-order: stroke;
+  background: url("img/horizontalRule.svg") top center / 100% 0.4cm no-repeat;
+}
+.cover-banner {
+  position: absolute;
+  bottom: 3cm;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  width: 11cm;
+  height: 1.7cm;
+  margin: 0;
+  padding-left: 1cm;
+  font-family: "Nodesto", serif;
+  font-size: 0.9cm;
+  text-align: left;
+  background: url("img/coverPageBanner.svg") left center / 100% 100% no-repeat;
+  filter: drop-shadow(2px 2px 2px #000);
+}
+
+/* ---------- Table of contents ---------- */
+
+.toc {
+  page: toc;
+  columns: 2;
+  column-gap: 0.9cm;
+  break-after: page;
+}
+.toc h1 {
+  column-span: all;
+  text-align: center;
+}
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toc a {
+  display: flex;
+  align-items: baseline;
+  color: inherit;
+  text-decoration: none;
+}
+.toc a::before {
+  order: 2;
+  flex: 1;
+  margin: 0 0.12cm;
+  content: "";
+  border-bottom: 0.05cm dotted #000;
+}
+.toc .toc-page {
+  order: 3;
+  min-width: 1.6em;
+  text-align: right;
+}
+.toc .toc-label {
+  order: 1;
+}
+.toc-1 {
+  margin-top: 0.3cm;
+  break-inside: avoid-column;
+}
+.toc-1 > a {
+  font-family: "MrEaves", serif;
+  font-size: 0.46cm;
+  color: var(--header);
+}
+.toc-1 > a .toc-page {
+  font-family: "BookInsanity", serif;
+  font-size: var(--body-size);
+  color: #000;
+}
+.toc-2 {
+  padding-left: 1em;
+  line-height: 1.3em;
+}
+
+/* ---------- Chapters ---------- */
+
+.chapter {
+  columns: 2;
+  column-gap: 0.9cm;
+  break-before: page;
+}
+
+p {
+  margin: 0;
+}
+p + p,
+ul + p,
+ol + p,
+table + p {
+  text-indent: 1em;
+}
+* + p,
+* + ul,
+* + ol,
+* + table,
+* + pre,
+* + figure,
+* + div {
+  margin-top: 0.325cm;
+}
+p + p {
+  margin-top: 0;
+}
+ul,
+ol {
+  margin-bottom: 0;
+  padding-left: 1.4em;
+}
+li {
+  break-inside: avoid;
+}
+li > ul,
+li > ol {
+  margin-top: 0;
+}
+li input[type="checkbox"] {
+  margin: 0 0.3em 0 -1.2em;
+  vertical-align: -0.1em;
+}
+li:has(> input[type="checkbox"]) {
+  list-style: none;
+}
+strong {
+  letter-spacing: -0.02em;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.chapter a[href^="#"] {
+  text-decoration: underline dotted var(--header-underline);
+}
+code {
+  padding: 0 4px;
+  font-size: 0.325cm;
+  color: var(--header);
+  background: var(--readaloud);
+  border-radius: 4px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: "MrEaves", serif;
+  font-weight: normal;
+  color: var(--header);
+  break-after: avoid;
+}
+h1 {
+  column-span: all;
+  margin-bottom: 0.3cm;
+  font-size: 0.89cm;
+  line-height: 1em;
+}
+h1 + p::first-line,
+h1 + .info + p::first-line {
+  font-variant: small-caps;
+}
+h1 + p::first-letter,
+h1 + .info + p::first-letter {
+  float: left;
+  margin: -0.25cm 0.05cm -0.2cm 0;
+  font-family: "Solbera", serif;
+  font-size: 3.5cm;
+  line-height: 1em;
+  color: transparent;
+  background-image: linear-gradient(-45deg, #322814, #998250, #322814);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+h2 {
+  font-size: 0.75cm;
+  line-height: 0.988em;
+}
+* + h2 {
+  margin-top: 0.5cm;
+}
+h3 {
+  font-size: 0.575cm;
+  line-height: 0.995em;
+  border-bottom: 2px solid var(--header-underline);
+}
+* + h3 {
+  margin-top: 0.4cm;
+}
+h3 + * {
+  margin-top: 0.17cm;
+}
+h4 {
+  font-size: 0.458cm;
+  line-height: 0.971em;
+}
+* + h4 {
+  margin-top: 0.3cm;
+}
+h4 + * {
+  margin-top: 0.09cm;
+}
+h5,
+h6 {
+  margin: 0;
+  font-family: "ScalySansCaps", sans-serif;
+  font-size: 0.423cm;
+  font-weight: normal;
+  line-height: 0.951em;
+  break-after: avoid;
+}
+* + h5,
+* + h6 {
+  margin-top: 0.3cm;
+}
+h5 + *,
+h6 + * {
+  margin-top: 0.15cm;
+}
+
+/* ---------- Tables ---------- */
+
+table {
+  width: 100%;
+  font-family: "ScalySans", sans-serif;
+  font-size: var(--sans-size);
+  line-height: 1.2em;
+  border-collapse: collapse;
+  break-inside: avoid;
+}
+table:has(th:nth-child(5)) {
+  font-size: 0.29cm;
+}
+thead {
+  font-weight: bold;
+}
+th,
+td {
+  padding: 0.04cm 0.12cm;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  vertical-align: bottom;
+}
+tbody tr:nth-child(odd) {
+  background-color: var(--accent);
+}
+
+/* ---------- Boxes ---------- */
+
+.info,
+.note,
+.descriptive,
+.handout,
+.monster,
+.stats {
+  break-inside: avoid;
+}
+.info p,
+.note p,
+.descriptive p,
+.handout p,
+.monster p {
+  text-indent: 0;
+}
+
+/* Adventure-at-a-glance lines under a chapter title */
+.info {
+  padding: 0.15cm 0;
+  font-family: "ScalySans", sans-serif;
+  font-size: var(--sans-size);
+  line-height: 1.3em;
+  border-top: 2px solid var(--header);
+  border-bottom: 2px solid var(--header);
+}
+.info strong {
+  color: var(--header);
+}
+
+/* Sidebars */
+.note {
+  margin-top: 0.5cm;
+  padding: 0.13cm 0.16cm;
+  font-family: "ScalySans", sans-serif;
+  font-size: var(--sans-size);
+  line-height: 1.2em;
+  background-color: var(--accent);
+  border-style: solid;
+  border-width: 1px;
+  border-image: url("img/noteBorder.png") 12 stretch;
+  border-image-width: 11px;
+  border-image-outset: 9px 0;
+  box-shadow: 1px 4px 14px #888;
+}
+.note + * {
+  margin-top: 0.45cm;
+}
+.note h5 {
+  font-size: 0.375cm;
+}
+
+/* Read-aloud text */
+.descriptive {
+  margin-top: 0.4cm;
+  padding: 0.12cm 0.1cm;
+  font-family: "ScalySans", sans-serif;
+  font-size: var(--sans-size);
+  line-height: 1.45em;
+  background-color: var(--readaloud);
+  border-style: solid;
+  border-width: 7px;
+  border-image: url("img/descriptiveBorder.png") 12 stretch;
+  box-shadow: 0 0 6px var(--readaloud);
+}
+.descriptive + * {
+  margin-top: 0.45cm;
+}
+.descriptive p + p {
+  margin-top: 0.2cm;
+}
+.descriptive blockquote,
+.handout blockquote {
+  margin: 0.2cm 0 0 0.4cm;
+  padding-left: 0.3cm;
+  border-left: 2px solid var(--header-underline);
+}
+
+/* Handouts: a sheet of paper laid on the page */
+.handout {
+  margin: 0.5cm 0.1cm;
+  padding: 0.4cm 0.45cm;
+  font-size: 0.33cm;
+  line-height: 1.35em;
+  background: #fbf8ee;
+  border: 1px solid #d8cba0;
+  box-shadow: 2px 3px 10px rgb(0 0 0 / 35%);
+  transform: rotate(-0.4deg);
+}
+.handout + .handout {
+  transform: rotate(0.5deg);
+}
+.handout hr {
+  margin: 0.25cm 0;
+  border: none;
+  border-top: 1px solid #b8a676;
+}
+.handout ol,
+.handout ul {
+  padding-left: 1.2em;
+}
+
+/* ---------- Stat blocks ---------- */
+
+.monster {
+  margin-top: 0.4cm;
+  font-family: "ScalySans", sans-serif;
+  font-size: var(--sans-size);
+  line-height: 1.2em;
+}
+.monster.frame {
+  padding: 4px 6px;
+  background-color: var(--stat-background);
+  background-image: url("img/parchmentBackgroundGrayscale.jpg");
+  background-blend-mode: overlay;
+  border-style: solid;
+  border-width: 7px 6px;
+  border-image: url("img/monsterBorderFancy.png") 14 round;
+  box-shadow: 1px 4px 14px #888;
+}
+.monster + * {
+  margin-top: 0.45cm;
+}
+.monster :is(h2, h3, h4) {
+  margin: 0;
+  font-size: 0.62cm;
+  line-height: 1em;
+  border: none;
+}
+.monster :is(h2, h3, h4) + p {
+  margin-top: 0.05cm;
+  font-size: 0.304cm;
+}
+.monster * + p,
+.monster * + ul,
+.monster * + div {
+  margin-top: 0.15cm;
+}
+.monster ul {
+  padding-left: 0;
+  list-style: none;
+}
+.monster li + li {
+  margin-top: 0.1cm;
+}
+.monster hr {
+  height: 6px;
+  margin: 0.12cm 0;
+  background: url("img/redTriangle.png") 0 0 / 100% 100%;
+  border: none;
+}
+.stats {
+  padding: 0.1cm 0;
+  color: var(--header);
+  border-top: 2px solid var(--rule);
+  border-bottom: 2px solid var(--rule);
+}
+.stats p + p {
+  margin-top: 0.06cm;
+}
+/* Daggerheart's FEATURES heading is a bold paragraph of its own */
+.monster p:has(> strong:only-child) {
+  font-family: "ScalySansCaps", sans-serif;
+  font-size: 0.36cm;
+  color: var(--header);
+  border-bottom: 1.5px solid var(--header);
+}
+.monster p:has(> strong:only-child) strong {
+  font-weight: normal;
+}
+
+/* ---------- Art ---------- */
+
+figure {
+  margin: 0;
+  break-inside: avoid;
+}
+figure + * {
+  margin-top: 0.4cm;
+}
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+figure.scene img,
+figure.location img {
+  border: 1px solid #c9b88c;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+}
+figure.character img {
+  max-height: 10cm;
+  object-fit: contain;
+}
+figure.item img {
+  width: 75%;
+  margin: 0 auto;
+}
+figcaption {
+  display: none;
+}
+figure.missing .placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4cm;
+  font-family: "MrEaves", serif;
+  font-size: 0.5cm;
+  color: var(--caption);
+  border: 2px dashed var(--header-underline);
+}
+figure.scene.missing .placeholder {
+  height: 7cm;
+}
+
+/* ---------- Maps and diagrams ---------- */
+
+pre {
+  margin-bottom: 0;
+  break-inside: avoid;
+}
+pre.ascii,
+pre[class^="lang-"] {
+  padding: 0.2cm;
+  font-size: 0.24cm;
+  line-height: 1.25em;
+  white-space: pre;
+  background: var(--readaloud);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 12px;
+  border-image: url("img/codeBorder.png") 26 stretch;
+  border-image-width: 10px;
+  border-image-outset: 2px;
+  overflow: hidden;
+}
+pre.ascii:has(code) {
+  column-span: all;
+}
+pre.ascii code,
+pre[class^="lang-"] code {
+  padding: 0;
+  font-size: inherit;
+  color: #2b1d0e;
+  background: none;
+}
+pre.mermaid {
+  column-span: all;
+  display: flex;
+  justify-content: center;
+  font-family: "ScalySans", sans-serif;
+}
+pre.mermaid svg {
+  max-width: 100%;
+  max-height: 12cm;
+}
+
+.page-break {
+  break-after: page;
+}
+.column-break {
+  break-after: column;
+}

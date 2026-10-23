@@ -1,0 +1,17 @@
+{
+  "name": "@dndgen/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "dndgen command line: assemble, preview and render lorewright campaigns",
+  "bin": {
+    "dndgen": "./src/main.ts"
+  },
+  "dependencies": {
+    "@dndgen/core": "0.1.0",
+    "fflate": "^0.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5"
+  }
+}
