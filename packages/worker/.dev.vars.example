@@ -1,0 +1,2 @@
+# Copy to .dev.vars for `wrangler dev`
+API_TOKEN=dev-token

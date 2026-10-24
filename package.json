@@ -1,0 +1,32 @@
+{
+  "name": "dndgen",
+  "private": true,
+  "type": "module",
+  "description": "Turns lorewright campaigns into adventure-style PDFs, on Cloudflare",
+  "workspaces": [
+    "packages/core",
+    "packages/worker",
+    "packages/cli"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "npm run lint && npm run typecheck && npm test",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "dev": "npm run dev -w @dndgen/worker",
+    "deploy": "npm run deploy -w @dndgen/worker"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.2",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261019.1": true
+  }
+}

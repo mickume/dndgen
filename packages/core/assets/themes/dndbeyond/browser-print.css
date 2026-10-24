@@ -1,0 +1,95 @@
+/*
+ * Page decoration for printing straight from a browser: the parchment as a page background
+ * and running footers in page-margin boxes, both of which need Chrome 131 or later. The
+ * Worker prints the same decoration as sheets laid under the pages instead.
+ */
+
+@page {
+  /* Background images only paint the page area; the margins get the parchment's average tone. */
+  background: #eee8d1 url("img/parchmentBackground.jpg") center / cover;
+}
+
+/* Margin boxes only paint images that are already loaded; load the footer art up front. */
+body::before {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  content: url("img/PHB_footerAccent.png") url("img/PHB_footerAccentLeft.png");
+  opacity: 0;
+}
+@page :right {
+  @bottom-right-corner {
+    content: counter(page);
+    font:
+      0.34cm "BookInsanity",
+      serif;
+    color: var(--footer);
+    vertical-align: middle;
+    text-align: center;
+  }
+  /* The footer accent sits behind the chapter title; margin boxes do paint backgrounds. */
+  @bottom-right {
+    content: "";
+    width: 100%;
+    padding: 0.45cm 1.5cm 0 0;
+    background: url("img/PHB_footerAccent.png") center 0.15cm / 100% 1.2cm no-repeat;
+    font:
+      0.28cm "MrEaves",
+      serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--footer);
+    text-align: right;
+    vertical-align: middle;
+  }
+}
+@page :left {
+  @bottom-left-corner {
+    content: counter(page);
+    font:
+      0.34cm "BookInsanity",
+      serif;
+    color: var(--footer);
+    vertical-align: middle;
+    text-align: center;
+  }
+  @bottom-left {
+    content: "";
+    width: 100%;
+    padding: 0.45cm 0 0 1.5cm;
+    background: url("img/PHB_footerAccentLeft.png") center 0.15cm / 100% 1.2cm no-repeat;
+    font:
+      0.28cm "MrEaves",
+      serif;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--footer);
+    text-align: left;
+    vertical-align: middle;
+  }
+}
+@page cover {
+  @bottom-right-corner {
+    content: none;
+  }
+  @bottom-left-corner {
+    content: none;
+  }
+  @bottom-right {
+    content: none;
+    background: none;
+  }
+  @bottom-left {
+    content: none;
+    background: none;
+  }
+}
+@page toc {
+  @bottom-right {
+    background: none;
+  }
+  @bottom-left {
+    background: none;
+  }
+}
